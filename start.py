@@ -61,9 +61,10 @@ def main_menu():
         print("\n主菜单：")
         print("1. 更新服务端代码")
         print("2. 更新依赖库")
-        print("3. 启动主服务端")
-        print("4. 启动音乐服务端")
-        print("5. 退出")
+        print("3. 安装音乐小智服务端DLC")
+        print("4. 启动主服务端")
+        print("5. 启动音乐服务端")
+        print("6. 退出")
         
         choice = input("请输入选项 (1-5): ").strip()
         
@@ -84,21 +85,21 @@ def main_menu():
                 new_window=True
             )
             os.system("cls")
-        elif choice == '3':
+        elif choice == '4':
             run_command(
                 os.path.join(SCRIPT_DIR, '一键启动小智服务端.bat'),
                 "正在启动主服务端...",
                 new_window=True
             )
             os.system("cls")
-        elif choice == '4':
+        elif choice == '5':
             run_command(
                 os.path.join(SCRIPT_DIR, '一键启动音乐小智服务端.bat'),
                 "正在启动音乐服务端...",
                 new_window=True
             )
             os.system("cls")
-        elif choice == '5':
+        elif choice == '6':
             print("感谢使用！")
             sys.exit(0)
         else:
