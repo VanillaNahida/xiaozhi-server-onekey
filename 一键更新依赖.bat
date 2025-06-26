@@ -3,9 +3,10 @@ chcp 65001 >nul
 
 cd %cd%\runtime\Scripts
 title 一键更新依赖
-pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
-echo 设置镜像源成功！开始更新依赖……
-pip install -r "../../src/main/xiaozhi-server/requirements.txt"
+echo 开始更新依赖……
+pip install -r "../../src/main/xiaozhi-server/requirements.txt" -i https://mirrors.aliyun.com/pypi/simple/
 echo 更新依赖成功！
+pip install -r "../../src/main/music-xiaozhi-server/requirements.txt" -i https://mirrors.aliyun.com/pypi/simple/
+echo 更新小智音乐服务依赖成功！
 pause
 
