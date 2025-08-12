@@ -2,36 +2,64 @@
 # 本更新脚本以GPL v3.0开源
 import os
 import time
+import wave
 import shutil
+import pyaudio
 import requests
+import threading
 import subprocess
 from datetime import datetime
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 
-# 没用的功能
-import pyaudio
-import wave
-import threading
+def print_gradient_text(text, start_color, end_color):
+    """
+    在终端打印彩色渐变文字
+    
+    参数:
+    text: 要打印的文字
+    start_color: 起始颜色 (R, G, B) 元组, 范围0-255
+    end_color: 结束颜色 (R, G, B) 元组, 范围0-255
+    """
+    r1, g1, b1 = start_color
+    r2, g2, b2 = end_color
+    
+    gradient_text = []
+    for i, char in enumerate(text):
+        # 计算当前字符的颜色插值
+        ratio = i / (len(text) - 1) if len(text) > 1 else 0
+        r = int(r1 + (r2 - r1) * ratio)
+        g = int(g1 + (g2 - g1) * ratio)
+        b = int(b1 + (b2 - b1) * ratio)
+        
+        # 使用ANSI转义序列设置颜色
+        gradient_text.append(f"\033[38;2;{r};{g};{b}m{char}")
+    
+    # 组合所有字符并重置颜色
+    print(''.join(gradient_text) + '\033[0m')
 
 def print_logo():
     """打印logo"""
     # 打印logo
-    print("""\033[;32m
-          脚本作者：@VanillaNahida 香草味的纳西妲喵
+    text = """    
+    小智AI服务端一键包更新脚本 Ver 1.5.0
+    脚本作者：哔哩哔哩 @香草味的纳西妲喵
+    GitHub: @VanillaNahida
  __      __            _  _  _            _   _         _      _      _        
  \ \    / /           (_)| || |          | \ | |       | |    (_)    | |       
   \ \  / /__ _  _ __   _ | || |  __ _    |  \| |  __ _ | |__   _   __| |  __ _ 
    \ \/ // _` || '_ \ | || || | / _` |   | . ` | / _` || '_ \ | | / _` | / _` |
     \  /| (_| || | | || || || || (_| |   | |\  || (_| || | | || || (_| || (_| |
      \/  \__,_||_| |_||_||_||_| \__,_|   |_| \_| \__,_||_| |_||_| \__,_| \__,_|   
-          
-    \033[0m""")
+
+    感谢使用本脚本！
+"""
+    print_gradient_text(text, (240, 230, 50), (90, 180, 0))
     # 初始化输出
-    # print('\033[4;32m逆境清醒虽然已经很笨，但仍希望坚持保持善良\033[0m')
-    print("小智AI服务端一键包更新脚本 Ver 1.5.0\n脚本开源地址：https://github.com/VanillaNahida/xiaozhi-server-updater/")
-
-
+    text = """
+脚本开源地址：https://github.com/VanillaNahida/xiaozhi-server-onekey/
+"""
+    print_gradient_text(text, (150, 240, 200), (20, 160, 40))
 
 def play_audio_async(file_path):
     """使用线程实现非阻塞播放"""
