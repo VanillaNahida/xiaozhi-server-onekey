@@ -14,6 +14,25 @@ import pyaudio
 import wave
 import threading
 
+def print_logo():
+    """打印logo"""
+    # 打印logo
+    print("""\033[;32m
+          脚本作者：@VanillaNahida 香草味的纳西妲喵
+ __      __            _  _  _            _   _         _      _      _        
+ \ \    / /           (_)| || |          | \ | |       | |    (_)    | |       
+  \ \  / /__ _  _ __   _ | || |  __ _    |  \| |  __ _ | |__   _   __| |  __ _ 
+   \ \/ // _` || '_ \ | || || | / _` |   | . ` | / _` || '_ \ | | / _` | / _` |
+    \  /| (_| || | | || || || || (_| |   | |\  || (_| || | | || || (_| || (_| |
+     \/  \__,_||_| |_||_||_||_| \__,_|   |_| \_| \__,_||_| |_||_| \__,_| \__,_|   
+          
+    \033[0m""")
+    # 初始化输出
+    # print('\033[4;32m逆境清醒虽然已经很笨，但仍希望坚持保持善良\033[0m')
+    print("小智AI服务端一键包更新脚本 Ver 1.5.0\n脚本开源地址：https://github.com/VanillaNahida/xiaozhi-server-updater/")
+
+
+
 def play_audio_async(file_path):
     """使用线程实现非阻塞播放"""
     def _play():
@@ -208,15 +227,13 @@ def backup_config(script_dir):
         return False
 
 def main():
+    print_logo()
     # 初始化路径
     script_dir = os.path.dirname(os.path.abspath(__file__))
     # 切换目录
-    grandparent_dir = os.path.dirname(os.path.dirname(script_dir))
-    os.chdir(grandparent_dir)
+    os.chdir(script_dir)
     git_path = os.path.join(script_dir, "runtime", "git-2.48.1", "cmd", "git.exe")
-    base_dir = os.path.join(script_dir)
-    # 初始化输出
-    print("小智AI服务端一键包更新脚本 Ver 1.5.0\n制作者：哔哩哔哩 @香草味的纳西妲喵。\n脚本开源地址：https://github.com/VanillaNahida/xiaozhi-server-updater/")
+    base_dir = script_dir
     print(f"当前脚本目录：{base_dir}")
 
     # 环境检查
@@ -227,7 +244,6 @@ def main():
 
     try:
         os.chdir(base_dir)
-        print(f"当前工作目录：{base_dir}")
     except Exception as e:
         print(f"[ERROR] 目录切换失败：{str(e)}")
         input("按 Enter 退出...")
@@ -279,6 +295,8 @@ def main():
 
     finally:
         # 显示最终远程地址
+        print("\n重置为默认远程地址")
+        run_git_command(git_path, ["remote", "set-url", "origin", DEFAULT_REPO_URL])
         print("\n当前远程地址：")
         run_git_command(git_path, ["remote", "-v"])
 
