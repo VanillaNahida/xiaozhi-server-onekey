@@ -9,25 +9,27 @@ from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from requests.exceptions import RequestException
 
-DEFAULT_ZIP_URL = "https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip"
+BASE_URL = "https://github.com/XuSenfeng/xiaozhi-esp32-server-music"
+
+DEFAULT_ZIP_URL = f"{BASE_URL}/archive/refs/heads/master.zip"
 
 # 硬编码的代理地址
 PROXY_URL = [
-    "https://ghfast.top/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://gh.ddlc.top/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://slink.ltd/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://cors.isteed.cc/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://hub.gitmirror.com/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://sciproxy.com/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://ghproxy.net/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://gitclone.com/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://hub.incept.pw/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://github.moeyy.xyz/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://dl.ghpig.top/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://gh-proxy.com/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://hub.whtrys.space/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://gh-proxy.ygxz.in/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip",
-    "https://ghproxy.net/https://github.com/XuSenfeng/xiaozhi-esp32-server-music/archive/refs/heads/master.zip"
+    f"https://ghfast.top/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://gh.ddlc.top/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://slink.ltd/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://cors.isteed.cc/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://hub.gitmirror.com/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://sciproxy.com/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://ghproxy.net/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://gitclone.com/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://hub.incept.pw/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://github.moeyy.xyz/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://dl.ghpig.top/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://gh-proxy.com/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://hub.whtrys.space/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://gh-proxy.ygxz.in/{BASE_URL}/archive/refs/heads/master.zip",
+    f"https://ghproxy.net/{BASE_URL}/archive/refs/heads/master.zip"
 ]
 
 def download_file_with_fallbacks(filename="master.zip", retries=5):
@@ -66,33 +68,51 @@ def download_file_with_fallbacks(filename="master.zip", retries=5):
                 
                 # 检查响应状态
                 response.raise_for_status()
-                
+
                 # 获取文件大小
                 total_size = int(response.headers.get('content-length', 0))
-                print(f"文件大小: {total_size/(1024 * 1024):.2f} MB" if total_size > 0 else "文件大小: 未知")
-                
+
                 # 下载文件
+                print("开始下载，过程可能会有一点慢，请耐心等待……")
                 downloaded = 0
+                start_download_time = time.time()
+                last_update_time = start_download_time
                 with open(filename, 'wb') as f:
                     for chunk in response.iter_content(chunk_size=8192):
                         if chunk:
                             f.write(chunk)
                             downloaded += len(chunk)
-                            if total_size > 0:
-                                progress = downloaded / total_size * 100
-                                print(f"\r下载进度: {progress:.1f}%", end='', flush=True)
+                            current_time = time.time()
+                            # 每0.5秒更新一次进度，避免过于频繁刷新
+                            if current_time - last_update_time >= 0.5:
+                                last_update_time = current_time
+                                elapsed_time = current_time - start_download_time
+                                speed = downloaded / elapsed_time if elapsed_time > 0 else 0
+                                
+                                if total_size > 0:
+                                    progress = downloaded / total_size * 100
+                                    print(f"\r下载进度: {progress:.1f}%  -  {downloaded/(1024*1024):.2f} MB/{total_size/(1024*1024):.2f} MB  -  速度: {speed/(1024*1024):.2f} MB/s", end='', flush=True)
+                                else:
+                                    print(f"\r已下载: {downloaded/(1024*1024):.2f} MB  -  速度: {speed/(1024*1024):.2f} MB/s", end='', flush=True)
                 
-                if total_size > 0:
+                # 下载完成后显示实际文件大小
+                if total_size == 0:
+                    actual_size = os.path.getsize(filename)
+                    print(f"\n文件大小: {actual_size/(1024 * 1024):.2f} MB")
+                else:
                     print()
-                print(f"✅ 下载成功! 耗时: {time.time()-start_time:.2f}秒")
+                total_time = time.time() - start_time
+                avg_speed = downloaded / total_time if total_time > 0 else 0
+                print(f"✅ 下载成功! 耗时: {total_time:.2f}秒  -  平均速度: {avg_speed/(1024*1024):.2f} MB/s")
                 return os.path.abspath(filename)
                 
             except RequestException as e:
                 wait_time = min(5, attempt * 1.5)  # 指数退避等待
                 print(f"尝试 #{attempt} 失败: {type(e).__name__}{f' - {str(e)}' if str(e) else ''}")
                 if attempt < retries:
-                    print(f"等待 {wait_time:.1f}秒后重试...")
-                    time.sleep(wait_time)
+                    print("请按回车键重试...")
+                    input()  # 等待用户按下回车键
+                    # time.sleep(wait_time)  # 注释掉原来的等待时间
                     
         print("-" * 60)
     

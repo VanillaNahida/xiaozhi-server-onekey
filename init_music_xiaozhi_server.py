@@ -61,12 +61,15 @@ if __name__ == "__main__":
                 print("下载音乐小智服务端DLC成功！")
                 # 复制模型文件和配置文件
                 copy_config_and_models()
+                print("下载音乐小智DLC成功！请运行目录下的启动脚本启动音乐小智服务端~")
                 break
             elif choice in ['n', 'no']:
                 print("取消下载")
                 break
             else:
                 print("无效输入，请输入 Y(是) 或 n(否)")
+
+
     else:
         print("你似乎已经下载过音乐小智服务端了，请回到一键包根目录，尝试启动音乐小智服务端吧！")
 

@@ -2,7 +2,7 @@
 chcp 65001 >nul
 
 set "BATCH_DIR=%~dp0"
-set "PYTHON_PATH=%BATCH_DIR%runtime\python.exe"
+set "PYTHON_PATH=%BATCH_DIR%runtime\conda_env\python.exe"
 if not exist "%PYTHON_PATH%" (
     echo Error: Python not found at "%PYTHON_PATH%"
     pause
