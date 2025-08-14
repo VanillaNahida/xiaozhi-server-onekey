@@ -1,6 +1,7 @@
 # coding=UTF-8
 # 本更新脚本以GPL v3.0开源
 import os
+import sys
 import time
 import wave
 import shutil
@@ -13,6 +14,34 @@ from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 
 # 没用的功能
+def get_windows_version():
+    if sys.platform != 'win32':
+        raise OSError("非Windows系统")
+
+    # 获取Windows版本信息
+    version_info = sys.getwindowsversion()
+    build_number = version_info.build  # 系统构建版本号
+
+    if build_number >= 22000:
+        return "Windows 11"
+    elif build_number >= 10240:  # Windows 10 首个正式版本号
+        return "Windows 10"
+    else:
+        return f"旧版 Windows (Build {build_number})"
+    
+def is_windows_11():
+    try:
+        result = get_windows_version()
+        if result == "Windows 10":
+            return False
+        elif result == "Windows 11":
+            return True
+        else:
+            return False
+    except OSError as e:
+        print(e)
+
+
 def print_gradient_text(text, start_color, end_color):
     """
     在终端打印彩色渐变文字
@@ -56,12 +85,18 @@ def print_logo():
 
     感谢使用本脚本！
 """
-    print_gradient_text(text, (240, 230, 50), (90, 180, 0))
+    if is_windows_11():
+        print_gradient_text(text, (240, 230, 50), (90, 180, 0))
+    else:
+        print(text)
     # 初始化输出
     text = """
 脚本开源地址：https://github.com/VanillaNahida/xiaozhi-server-onekey/
 """
-    print_gradient_text(text, (150, 240, 200), (20, 160, 40))
+    if is_windows_11():
+        print_gradient_text(text, (150, 240, 200), (20, 160, 40))
+    else:
+        print(text)
 
 def play_audio_async(file_path):
     """使用线程实现非阻塞播放"""
@@ -165,7 +200,6 @@ def pull_with_proxy(git_path):
         code, output = run_git_command(git_path, ["pull"])
         if code == 0:
             # 成功提示音
-            print("播放提示音")
             if os.path.exists(f'{script_dir}/runtime/success.wav'): play_audio_async(f'{script_dir}/runtime/success.wav')
 
             print("\n✅ 拉取成功，建议更新完成后运行该目录下的一键更新依赖批处理进行依赖更新。" if "Already up" not in output else "\n🎉 恭喜，你本地的代码已经是最新版本！")
@@ -173,7 +207,7 @@ def pull_with_proxy(git_path):
         else:
             print("\n❌ 拉取失败，正在切换代理地址重试！")
 
-
+# 该函数已被弃用
 def select_proxy_url():
     """自动选择延迟最低的GitHub代理地址"""
     proxies = get_github_proxy_urls()
@@ -225,8 +259,8 @@ def select_proxy_url():
 def get_pull_mode():
     """选择拉取模式"""
     print("\n请选择拉取方式：")
-    print("1. 普通拉取（保留本地修改）")
-    print("2. 强制拉取（覆盖所有修改）")
+    print("1. 普通拉取（推荐，保留本地修改）")
+    print("2. 强制拉取（普通拉取失败的时候使用这个，会覆盖所有修改）")
     while True:
         choice = input("请输入选项（1/2）: ").strip()
         if choice in ('1', '2'):
@@ -282,8 +316,8 @@ def main():
         input("按 Enter 退出...")
         return
 
-    # 代理设置流程
-    use_proxy = input("\n是否设置GitHub代理？（留空或输入非y为不设置）(y/n): ").lower() == 'y'
+    # 是否使用代理拉取
+    use_proxy = input("\n是否设置并使用GitHub代理？（留空默认使用代理拉取）(y/n): ").lower() != 'n'
 
     try:
         # 询问是否使用代理

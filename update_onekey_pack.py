@@ -1,6 +1,7 @@
 # coding=UTF-8
 # 本更新脚本以GPL v3.0开源
 import os
+import sys
 import time
 import wave
 import shutil
@@ -11,6 +12,34 @@ import subprocess
 from datetime import datetime
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
+
+# 没用的功能
+def get_windows_version():
+    if sys.platform != 'win32':
+        raise OSError("非Windows系统")
+
+    # 获取Windows版本信息
+    version_info = sys.getwindowsversion()
+    build_number = version_info.build  # 系统构建版本号
+
+    if build_number >= 22000:
+        return "Windows 11"
+    elif build_number >= 10240:  # Windows 10 首个正式版本号
+        return "Windows 10"
+    else:
+        return f"旧版 Windows (Build {build_number})"
+    
+def is_windows_11():
+    try:
+        result = get_windows_version()
+        if result == "Windows 10":
+            return False
+        elif result == "Windows 11":
+            return True
+        else:
+            return False
+    except OSError as e:
+        print(e)
 
 def print_gradient_text(text, start_color, end_color):
     """
@@ -54,12 +83,18 @@ def print_logo():
 
     感谢使用本脚本！
 """
-    print_gradient_text(text, (240, 230, 50), (90, 180, 0))
+    if is_windows_11():
+        print_gradient_text(text, (240, 230, 50), (90, 180, 0))
+    else:
+        print(text)
     # 初始化输出
     text = """
 脚本开源地址：https://github.com/VanillaNahida/xiaozhi-server-onekey/
 """
-    print_gradient_text(text, (150, 240, 200), (20, 160, 40))
+    if is_windows_11():
+        print_gradient_text(text, (150, 240, 200), (20, 160, 40))
+    else:
+        print(text)
 
 def play_audio_async(file_path):
     """使用线程实现非阻塞播放"""
@@ -163,7 +198,6 @@ def pull_with_proxy(git_path):
         code, output = run_git_command(git_path, ["pull"])
         if code == 0:
             # 成功提示音
-            print("播放提示音")
             if os.path.exists(f'{script_dir}/runtime/success.wav'): play_audio_async(f'{script_dir}/runtime/success.wav')
 
             print("\n✅ 一键包更新成功！" if "Already up" not in output else "\n🎉 恭喜，你本地的代码已经是最新版本！")
