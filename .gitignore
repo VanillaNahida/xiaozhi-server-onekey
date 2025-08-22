@@ -205,3 +205,6 @@ cython_debug/
 
 # master.zip cache
 master.zip
+
+# nosync 标记文件
+nosync.txt
