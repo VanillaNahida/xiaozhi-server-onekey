@@ -1,6 +1,7 @@
 @echo off
 chcp 65001 >nul
 
+title 小智AI音乐服务端
 set "BATCH_DIR=%~dp0"
 
 REM 检测音乐小智目录是否存在
@@ -15,13 +16,14 @@ if not exist "%BATCH_DIR%src\main\music-xiaozhi-server\" (
 )
 
 set "PYTHON_PATH=%BATCH_DIR%runtime\conda_env\python.exe"
-title 小智AI音乐服务端
-"%PYTHON_PATH%" "%BATCH_DIR%\check_update.py"
 set "PATH=%BATCH_DIR%runtime\ffmpeg;%PATH%"
 set "PATH=%BATCH_DIR%runtime\mysql\bin;%PATH%"
 set "PATH=%BATCH_DIR%runtime\Redis;%PATH%"
 set "PATH=%BATCH_DIR%runtime\nodejs;%PATH%"
 set "PATH=%BATCH_DIR%runtime\jdk-21\bin;%PATH%"
+
+"%PYTHON_PATH%" "%BATCH_DIR%\check_update.py"
+timeout /t 3
 cd /d "%BATCH_DIR%src\main\music-xiaozhi-server"
 "%PYTHON_PATH%" app.py
 pause
