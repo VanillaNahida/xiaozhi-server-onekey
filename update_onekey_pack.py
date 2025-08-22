@@ -265,29 +265,6 @@ def get_pull_mode():
             return 'normal' if choice == '1' else 'force'
         print("输入无效，请重新输入！")
 
-def backup_config(script_dir):
-    """备份配置文件"""
-    data_dir = os.path.join(script_dir, "src", "main", "xiaozhi-server", "data")
-    
-    # 检查配置文件目录是否存在
-    if not os.path.exists(data_dir):
-        print(f"\n⚠️ 未找到配置文件目录：{data_dir}")
-        return False
-    
-    if not os.path.exists(os.path.join(data_dir, ".config.yaml")):
-        print("\n⚠️ 未找到配置文件，已取消备份")
-        return False
-    
-    backup_dir = os.path.join(script_dir, "backup", f"backup_{datetime.now().strftime('%Y%m%d%H%M%S')}")
-    
-    try:
-        shutil.copytree(data_dir, backup_dir)
-        print(f"\n✅ 已帮你备份好配置文件：{backup_dir}")
-        return True
-    except Exception as e:
-        print(f"\n❌ 备份失败：{str(e)}")
-        return False
-
 def main():
     print_logo()
     # 初始化路径
@@ -343,11 +320,6 @@ def main():
             else:
                 print("\n警告⚠️： 强制更新将覆盖所有本地修改！")
                 if input("你确认要强制更新吗？请输入“确认强制更新”确认操作：") == "确认强制更新":
-                    # 尝试备份并执行强制更新
-                    backup_success = backup_config(script_dir)
-                    if not backup_success:
-                        print("\n⚠️ 注意：配置文件未备份，继续执行强制更新！")
-                    
                     print("\n正在强制同步...")
                     run_git_command(git_path, ["fetch", "--all"])
                     run_git_command(git_path, ["reset", "--hard", "origin/main"])
