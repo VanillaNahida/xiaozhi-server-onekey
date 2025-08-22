@@ -15,9 +15,6 @@ from requests.adapters import HTTPAdapter
 
 # 没用的功能
 def get_windows_version():
-    if sys.platform != 'win32':
-        raise OSError("非Windows系统")
-
     # 获取Windows版本信息
     version_info = sys.getwindowsversion()
     build_number = version_info.build  # 系统构建版本号
