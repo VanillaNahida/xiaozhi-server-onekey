@@ -15,12 +15,13 @@ if not exist "%BATCH_DIR%src\main\music-xiaozhi-server\" (
 )
 
 set "PYTHON_PATH=%BATCH_DIR%runtime\conda_env\python.exe"
+title 小智AI音乐服务端
+"%PYTHON_PATH%" "%BATCH_DIR%\check_update.py"
 set "PATH=%BATCH_DIR%runtime\ffmpeg;%PATH%"
 set "PATH=%BATCH_DIR%runtime\mysql\bin;%PATH%"
 set "PATH=%BATCH_DIR%runtime\Redis;%PATH%"
 set "PATH=%BATCH_DIR%runtime\nodejs;%PATH%"
 set "PATH=%BATCH_DIR%runtime\jdk-21\bin;%PATH%"
 cd /d "%BATCH_DIR%src\main\music-xiaozhi-server"
-title 小智AI音乐服务端
 "%PYTHON_PATH%" app.py
 pause
