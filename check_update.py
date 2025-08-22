@@ -87,7 +87,9 @@ def check_updates():
 
     if latest_remote not in local_commits:
         commit_range = f'{local_commits[0]}..{latest_remote}'
-        print(f'\n❗发现 {len(remote_commits)} 个新提交：\n{"="*50}')
+        # 计算新增的提交数量（远程有而本地没有的提交）
+        new_commits = [commit for commit in remote_commits if commit not in local_commits]
+        print(f'\n❗发现 {len(new_commits)} 个新提交：\n{"="*50}')
         # 获取详细提交信息
         log_output = subprocess.check_output(
             [git_path, 'log', commit_range, 
