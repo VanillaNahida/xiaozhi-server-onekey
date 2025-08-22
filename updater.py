@@ -15,9 +15,6 @@ from requests.adapters import HTTPAdapter
 
 # 没用的功能
 def get_windows_version():
-    if sys.platform != 'win32':
-        raise OSError("非Windows系统")
-
     # 获取Windows版本信息
     version_info = sys.getwindowsversion()
     build_number = version_info.build  # 系统构建版本号
@@ -207,55 +204,6 @@ def pull_with_proxy(git_path):
         else:
             print("\n❌ 拉取失败，正在切换代理地址重试！")
 
-# 该函数已被弃用
-def select_proxy_url():
-    """自动选择延迟最低的GitHub代理地址"""
-    proxies = get_github_proxy_urls()
-    print(f"\n请稍后，正在测试代理地址延迟...")
-    
-    # 配置重试策略
-    retries = Retry(total=3, backoff_factor=0.5)
-    session = requests.Session()
-    session.mount('https://', HTTPAdapter(max_retries=retries))
-    
-    proxy_latencies = {}
-    for url in proxies:
-        try:
-            start_time = time.time()
-            # 分步设置超时：连接3秒，读取5秒
-            response = session.head(url, timeout=(3, 5))
-            if response.status_code == 200:
-                latency = (time.time() - start_time) * 1000
-                proxy_latencies[url] = latency
-                print(f"{url}: {latency:.2f}ms")
-        except requests.exceptions.SSLError:
-            try:
-                # SSL失败时尝试不验证
-                start_time = time.time()
-                response = session.head(url, timeout=(3,5), verify=False)
-                if response.status_code == 200:
-                    latency = (time.time() - start_time) * 1000
-                    proxy_latencies[url] = latency
-                    print(f"{url}: {latency:.2f}ms (不安全连接)")
-            except Exception as e:
-                print(f"{url}: SSL失败后重试异常 ({str(e)})")
-        except requests.exceptions.Timeout:
-            print(f"{url}: 请求超时")
-        except requests.exceptions.ConnectionError:
-            print(f"{url}: 连接失败")
-        except Exception as e:
-            print(f"{url}: 未知异常 ({str(e)})")
-    
-    if not proxy_latencies:
-        print("\n所有代理地址测试失败，将不使用代理")
-        return None
-    
-    best_proxy = min(proxy_latencies.items(), key=lambda x: x[1])
-    print(f"\n已选择最低延迟代理: {best_proxy[0]} ({best_proxy[1]:.2f}ms)")
-    
-    return best_proxy[0]
-
-
 def get_pull_mode():
     """选择拉取模式"""
     print("\n请选择拉取方式：")
@@ -317,7 +265,8 @@ def main():
         return
 
     # 是否使用代理拉取
-    use_proxy = input("\n是否设置并使用GitHub代理？（留空默认使用代理拉取）(y/n): ").lower() != 'n'
+    use_proxy = input("\n是否设置并使用GitHub代理？（留空默认使用代理直接拉取，若需要进行强制更新操作，请输入N并按下回车）(y/n) ").lower() != 'n'
+
 
     try:
         # 询问是否使用代理
@@ -325,34 +274,12 @@ def main():
             # 使用代理拉取代码
             pull_with_proxy(git_path)
         else:
-            reset = input("是否重置为默认地址？(y/n): ").lower() == 'y'
+            reset = input("是否重置为默认地址？(若需要进行强制更新操作，请输入N并按下回车) (y/n): ").lower() == 'y'
             if reset:
                 print(f"\n重置为默认地址：{DEFAULT_REPO_URL}")
                 run_git_command(git_path, ["remote", "set-url", "origin", DEFAULT_REPO_URL])
             else:
-                print("未输入内容，已取消重置操作")
-                
-            # # 获取代理地址
-            # proxy_url = select_proxy_url()
-            # if proxy_url:
-
-            #     # # 拼接代理地址
-            #     # new_url = f"{proxy_url.rstrip('/')}/{DEFAULT_REPO_URL}"
-            #     # print(f"\n开始拉取，使用代理地址：{new_url}")
-            #     # run_git_command(git_path, ["remote", "set-url", "origin", new_url])
-            #     # # 拉取代码
-            #     # code, output = run_git_command(git_path, ["pull"])
-            #     # if code == 0:
-            #     #     print("\n✅ 拉取成功，建议更新完成后运行该目录下的一键更新依赖批处理进行依赖更新。" if "Already up" not in output else "\n🎉 恭喜，你本地的代码已经是最新版本！")
-            #     # else:
-            #     #     print("\n❌ 拉取失败，请检查日志")
-            # else:
-            #     reset = input("是否重置为默认地址？(y/n): ").lower() == 'y'
-            #     if reset:
-            #         print(f"\n重置为默认地址：{DEFAULT_REPO_URL}")
-            #         run_git_command(git_path, ["remote", "set-url", "origin", DEFAULT_REPO_URL])
-            #     else:
-            #         print("未输入内容，已取消重置操作")
+                print("输入非y, 已取消重置操作")
 
             # 拉取操作
             pull_mode = get_pull_mode()
