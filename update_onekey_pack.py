@@ -318,6 +318,7 @@ def main():
                 print("\n警告⚠️： 强制更新将覆盖所有本地修改！")
                 if input("你确认要强制更新吗？请输入“确认强制更新”确认操作：") == "确认强制更新":
                     print("\n正在强制同步...")
+                    run_git_command(git_path, ["fetch", "origin"])
                     run_git_command(git_path, ["fetch", "--all"])
                     run_git_command(git_path, ["reset", "--hard", "origin/main"])
                     print("\n🎉 强制更新成功！")
