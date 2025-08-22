@@ -128,7 +128,7 @@ def check_updates():
         formatted_date = format_commit_date(commit_date_str)
         print(f'\n当前最新提交: \n提交日期: {formatted_date}\n{latest_commit}')
     
-    print("\n")
+    print("\n检查完毕！正在启动小智AI服务端……")
         
 if __name__ == '__main__':
     check_updates()
