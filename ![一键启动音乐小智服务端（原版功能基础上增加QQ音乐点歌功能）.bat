@@ -25,6 +25,9 @@ set "PATH=%BATCH_DIR%runtime\jdk-21\bin;%PATH%"
 "%PYTHON_PATH%" "%BATCH_DIR%\check_update.py"
 timeout /t 3
 cls
+"%PYTHON_PATH%" "%BATCH_DIR%sync_config.py" 
+timeout /t 3
+cls
 cd /d "%BATCH_DIR%src\main\music-xiaozhi-server"
 "%PYTHON_PATH%" app.py
 pause
