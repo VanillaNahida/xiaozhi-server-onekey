@@ -89,22 +89,30 @@ def check_updates():
 
     if latest_remote not in local_commits:
         commit_range = f'{local_commits[0]}..{latest_remote}'
-        print(f'\n发现 {len(remote_commits)} 个新提交：\n{"="*50}')
-        
+        print(f'\n❗发现 {len(remote_commits)} 个新提交：\n{"="*50}')
         # 获取详细提交信息
         log_output = subprocess.check_output(
             [git_path, 'log', commit_range, 
-             '--pretty=format:%C(yellow)%H%Creset %C(cyan)%ad%Creset%n作者: %C(green)%an <%ae>%Creset%n提交日期:   %cd%n提交信息：%n    %s%n分支信息: %C(auto)%d%Creset'],
-            text=True
+             '--pretty=format:Commit Hash: %C(yellow)%H%Creset %C(cyan)%Creset%n作者: %C(green)%an <%ae>%Creset%n提交信息：%n    %s%n分支信息: %C(auto)%d%Creset'],
+            text=True,
+            encoding='utf-8',
+            errors='ignore'
         )
-        print(f'\n\033[33m[提交详细信息]\033[0m\n{log_output}\n{"-"*50}\n')
-        
-        print(log_output)
+        # 获取提交日期
+        commit_date_str = subprocess.check_output(
+            [git_path, 'log', commit_range, '--pretty=format:%cd'],
+            text=True,
+            encoding='utf-8',
+            errors='ignore'
+        ).strip().rsplit()
+        # 调用函数并打印结果
+        formatted_date = format_commit_date(commit_date_str)
+        print(f'\n\033[33m[提交详细信息]\033[0m\n提交日期: {formatted_date}\n{log_output}\n')
         print(f'{"="*50}\n建议关闭窗口后，运行更新脚本获取一键包最新版！')
     else:
         print('\n🎉 恭喜！你的本地一键包已是最新版本！')
         latest_commit = subprocess.check_output(
-            [git_path, 'log', '-1', '--pretty=format:Commit: %C(yellow)%H%Creset %C(cyan)%Creset%n作者: %C(green)%an <%ae>%Creset%n提交信息：%n    %s%n分支信息: %C(auto)%d%Creset'],
+            [git_path, 'log', '-1', '--pretty=format:Commit Hash: %C(yellow)%H%Creset %C(cyan)%Creset%n作者: %C(green)%an <%ae>%Creset%n提交信息：%n    %s%n分支信息: %C(auto)%d%Creset'],
             text=True,
             encoding='utf-8',
             errors='ignore'
