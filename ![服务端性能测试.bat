@@ -10,5 +10,5 @@ if not exist "%PYTHON_PATH%" (
 )
 set "PATH=%BATCH_DIR%runtime\ffmpeg;%PATH%"
 cd /d "%BATCH_DIR%src\main\xiaozhi-server"
-"%PYTHON_PATH%" performance_test_tool.py
+"%PYTHON_PATH%" performance_tester.py
 pause

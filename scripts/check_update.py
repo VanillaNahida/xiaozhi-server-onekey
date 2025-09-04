@@ -2,8 +2,8 @@ import subprocess
 import os
 from typing import Tuple, List
 
-# 获取脚本所在目录
-script_dir = os.path.dirname(os.path.abspath(__file__))
+# 获取脚本所在目录的上级目录
+script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 内嵌Git客户端路径
 git_path = os.path.join(script_dir, "runtime", "git-2.48.1", "cmd", "git.exe")
 

@@ -10,7 +10,7 @@ set "PATH=%BATCH_DIR%runtime\Redis;%PATH%"
 set "PATH=%BATCH_DIR%runtime\maven\bin;%PATH%"
 set "PATH=%BATCH_DIR%runtime\jdk\bin;%PATH%"
 
-"%PYTHON_PATH%" "%BATCH_DIR%\check_update.py"
+"%PYTHON_PATH%" "%BATCH_DIR%\scripts\check_update.py"
 timeout /t 3
 cls
 cd /d "%BATCH_DIR%src\main\xiaozhi-server"

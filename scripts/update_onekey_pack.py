@@ -67,7 +67,7 @@ def print_gradient_text(text, start_color, end_color):
 def print_logo():
     """打印logo"""
     # 打印logo
-    text = """    
+    text = r"""    
     小智AI服务端一键包更新脚本 Ver 1.5.0
     脚本作者：哔哩哔哩 @香草味的纳西妲喵
     GitHub: @VanillaNahida
@@ -127,7 +127,10 @@ def play_audio_async(file_path):
     return thread
 
 if __name__ == "__main__":
-    if os.path.exists('./runtime/sound.wav'): play_audio_async('./runtime/sound.wav')
+    # 获取脚本所在目录的上级目录
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    
+    if os.path.exists(rf'{script_dir}\runtime\sound.wav'): play_audio_async(rf'{script_dir}\runtime\sound.wav')
 
 # 常量
 DEFAULT_REPO_URL = "https://github.com/VanillaNahida/xiaozhi-server-onekey.git"
@@ -182,8 +185,11 @@ def run_git_command(git_path, args):
     
 def pull_with_proxy(git_path):
     """使用代理更新代码（传参Git所在位置）"""
-    # 获取当前脚本所在目录
-    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # # 获取当前脚本所在目录
+    # script_dir = os.path.dirname(os.path.abspath(__file__))
+    # 获取脚本所在目录的上级目录
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
     # 获取代理地址列表
     proxy_list = get_github_proxy_urls()
     for proxy in proxy_list:
@@ -215,8 +221,11 @@ def get_pull_mode():
 
 def main():
     print_logo()
-    # 初始化路径
-    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # # 初始化路径
+    # script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # 初始化路径，获取脚本所在目录的上级目录
+    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     # 切换目录
     os.chdir(script_dir)
     git_path = os.path.join(script_dir, "runtime", "git-2.48.1", "cmd", "git.exe")

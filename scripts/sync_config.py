@@ -43,7 +43,9 @@ def copy_config_and_models(scripts_dir):
         return False
 
 if __name__ == "__main__":
-    # 获取脚本所在目录
-    scripts_dir = os.path.dirname(__file__)
+    # # 获取脚本所在目录
+    # scripts_dir = os.path.dirname(__file__)
+    # 获取脚本所在目录的上级目录
+    scripts_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     # 复制配置文件
     copy_config_and_models(scripts_dir)

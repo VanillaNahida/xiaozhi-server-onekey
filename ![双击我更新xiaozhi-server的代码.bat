@@ -3,7 +3,7 @@ chcp 65001 >nul
 
 set "PYTHON_PATH=%BATCH_DIR%runtime\conda_env\python.exe"
 title 小智AI服务端更新脚本
-"%PYTHON_PATH%" ".\updater.py"
+"%PYTHON_PATH%" ".\scripts\updater.py"
 
 echo 开始更新主服务依赖...
 pip install -r "./src/main/xiaozhi-server/requirements.txt" -i https://mirrors.aliyun.com/pypi/simple/

@@ -1,6 +1,5 @@
 runtime/*
 src/*
-Scripts/*
 __pycache__/*
 
 # Byte-compiled / optimized / DLL files
@@ -11,9 +10,6 @@ __pycache__/
 # C extensions
 *.so
 
-
-
-Scripts/
 src/
 runtime/
 # Distribution / packaging
