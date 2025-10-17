@@ -204,3 +204,6 @@ master.zip
 
 # nosync 标记文件
 nosync.txt
+
+# skip update 标记文件
+skip_update.txt

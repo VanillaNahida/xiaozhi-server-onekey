@@ -133,5 +133,8 @@ def check_updates():
     print("\n检查完毕！正在启动小智AI服务端……")
         
 if __name__ == '__main__':
-    check_updates()
+    if os.path.exists("skip_update.txt"):
+        print("检测到 skip_update.txt，跳过更新检查。")
+    else:
+        check_updates()
     
