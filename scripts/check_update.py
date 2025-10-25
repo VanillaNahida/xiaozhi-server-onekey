@@ -89,7 +89,8 @@ def check_updates():
         commit_range = f'{local_commits[0]}..{latest_remote}'
         # 计算新增的提交数量（远程有而本地没有的提交）
         new_commits = [commit for commit in remote_commits if commit not in local_commits]
-        print(f'\n❗发现 {len(new_commits)} 个新提交：\n{"="*50}')
+        print(f'❗发现新版本！请运行更新脚本获取最新版一键包！')
+        print(f'\n❗新增 {len(new_commits)} 个新提交：\n{"="*50}')
         # 获取详细提交信息
         log_output = subprocess.check_output(
             [git_path, 'log', commit_range, 
@@ -133,6 +134,22 @@ def check_updates():
     print("\n检查完毕！正在启动小智AI服务端……")
         
 if __name__ == '__main__':
+    if not os.path.exists("./runtime/.is_first_run"):
+        print("首次运行一键包，正在打开说明。")
+        with open("./必看说明.txt", encoding='utf-8') as f:
+            content = f.read()
+            os.system("color 0A")
+            print(content)
+            os.system("color 0F")
+        os.system("start notepad.exe .\\必看说明.txt")
+        print("请查看说明后，在终端按回车键继续。")
+        input("")
+
+        with open("./runtime/.is_first_run", "w") as f:
+            f.write("yes")
+
+    os.system("cls")
+    
     if os.path.exists("skip_update.txt"):
         print("检测到 skip_update.txt，跳过更新检查。")
     else:
