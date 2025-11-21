@@ -22,12 +22,8 @@ set "PATH=%BATCH_DIR%runtime\Redis;%PATH%"
 set "PATH=%BATCH_DIR%runtime\nodejs;%PATH%"
 set "PATH=%BATCH_DIR%runtime\jdk-21\bin;%PATH%"
 
-"%PYTHON_PATH%" "%BATCH_DIR%\scripts\check_update.py"
-timeout /t 3
-cls
 "%PYTHON_PATH%" "%BATCH_DIR%\scripts\sync_config.py" 
-timeout /t 3
+timeout /t 5
 cls
-cd /d "%BATCH_DIR%src\main\music-xiaozhi-server"
-"%PYTHON_PATH%" app.py
-pause
+"%PYTHON_PATH%" "%BATCH_DIR%\scripts\check_update.py" --use_music_server true
+timeout /t 5

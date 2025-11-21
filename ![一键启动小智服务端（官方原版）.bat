@@ -10,9 +10,5 @@ set "PATH=%BATCH_DIR%runtime\Redis;%PATH%"
 set "PATH=%BATCH_DIR%runtime\maven\bin;%PATH%"
 set "PATH=%BATCH_DIR%runtime\jdk\bin;%PATH%"
 
-"%PYTHON_PATH%" "%BATCH_DIR%\scripts\check_update.py"
-timeout /t 3
-cls
-cd /d "%BATCH_DIR%src\main\xiaozhi-server"
-"%PYTHON_PATH%" app.py
-pause
+"%PYTHON_PATH%" "%BATCH_DIR%\scripts\check_update.py" --use_music_server false
+timeout /t 5

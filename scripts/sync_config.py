@@ -17,7 +17,7 @@ def copy_config_and_models(scripts_dir):
 
     # 检查是否存在nosync.txt文件
     if os.path.exists(rf"{scripts_dir}\nosync.txt"):
-        print("已跳过同步配置文件")
+        print("检测到 nosync.txt ，已跳过同步配置文件")
         return True
     try:
         # 检查目录是否存在
