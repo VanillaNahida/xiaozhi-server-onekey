@@ -1,25 +1,38 @@
-前言：
-跟教程前请先开启显示文件扩展名！
-跟教程前请先开启显示文件扩展名！
-跟教程前请先开启显示文件扩展名！
+💬前言：
+    欢迎你使用我的小智AI服务端一键包，请先看完本提示信息再使用一键包。
+    本包已集成小智服务端运行的基本环境和配置，无需部署即可一键启动。
+    如果在使用过程中遇到任何问题，欢迎加群反馈：
+     · 一群（香草的小黑屋）：https://qm.qq.com/q/frw44jUoG4
+     · 二群（香草的技术部）：https://qm.qq.com/q/hZecoQKQlG
+     · 三群（香草的AI工坊）：https://qm.qq.com/q/NuIOl35PWY
+    *请勿重复加群。
 
-不会开的自行百度！！！
+    如果你是第一次使用我的一键包，使用前请务必观看我发布的视频教程
+    · 一键包基本教程：https://www.bilibili.com/video/BV1HLRMYTE8H
+    · 音乐服务器基本教程：https://www.bilibili.com/video/BV1cseVzVEbN/
 
-win10开启显示文件扩展名教程：https://www.baidu.com/s?word=win10%E5%BC%80%E5%90%AF%E6%96%87%E4%BB%B6%E6%89%A9%E5%B1%95%E5%90%8D
-win11开启显示文件扩展名教程：https://www.baidu.com/s?word=win11%E5%BC%80%E5%90%AF%E6%96%87%E4%BB%B6%E6%89%A9%E5%B1%95%E5%90%8D
+    如果你是之前使用过一键包，想迁移到这个新版本一键包
+    请复制旧包里的.config.yaml到新包的配置文件目录
+    
+⚠️重要提示：
+    跟教程前请先开启显示文件扩展名！
+    跟教程前请先开启显示文件扩展名！
+    跟教程前请先开启显示文件扩展名！
 
-开启教程：https://blog.csdn.net/weixin_52799373/article/details/133306908
+    win10/win11扩展名开启教程：
+    · https://blog.csdn.net/weixin_52799373/article/details/133306908
 
-说明：
-如果你是第一次使用我的一键包，建议看完这个视频：https://www.bilibili.com/video/BV1HLRMYTE8H
-如果你是之前使用过一键包，想迁移到这个新版本一键包
-请复制旧包里的.config.yaml到新包的配置文件目录
+    另外，由于不同系统之间的差异，本包暂时不支持智控台。
+    如想使用带智控台的版本，请看这个视频：https://www.bilibili.com/video/BV17bbvzHExd/
+    暂且只支持Ubuntu系统，Windows的一键包后续会加上的
 
-另外，由于不同系统之间的差异，本包暂时不支持智控台，如想使用带智控台的版本，请看这个视频：https://www.bilibili.com/video/BV17bbvzHExd/
+    默认情况下运行更新脚本会有提示音，如果不想使用提示音，请删除一键包根目录下的runtime目录里的三个wav音频文件
+    切记不要删除其他的任何文件，尤其是.py后缀的文件，否则一键包炸了后果自负！
 
-默认情况下运行更新脚本会有提示音，如果不想使用提示音，请删除一键包根目录下的runtime目录里的三个wav音频文件
-切记不要删除其他的任何文件，尤其是.py后缀的文件，否则一键包炸了后果自负！
+⚠️其他：
+    本教程只提供基础的配置服务，若想进阶配置，请阅读小智服务端官方文档：
+     · https://github.com/xinnan-tech/xiaozhi-esp32-server
+     · https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/docs/FAQ.md
 
-本教程只提供基础的配置服务，若想进阶配置，请阅读小智服务端官方文档：
-https://github.com/xinnan-tech/xiaozhi-esp32-server
-https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/docs/FAQ.md
+Tips：如果阅读到这里，那么底下的按钮即可点击
+祝你使用愉快！
