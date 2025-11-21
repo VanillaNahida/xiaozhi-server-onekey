@@ -29,10 +29,9 @@
     默认情况下运行更新脚本会有提示音，如果不想使用提示音，请删除一键包根目录下的runtime目录里的三个wav音频文件
     切记不要删除其他的任何文件，尤其是.py后缀的文件，否则一键包炸了后果自负！
 
-⚠️其他：
-    本教程只提供基础的配置服务，若想进阶配置，请阅读小智服务端官方文档：
-     · https://github.com/xinnan-tech/xiaozhi-esp32-server
-     · https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/docs/FAQ.md
+本教程只提供基础的配置服务，若想进阶配置，请阅读小智服务端官方文档：
+https://github.com/xinnan-tech/xiaozhi-esp32-server
+https://github.com/xinnan-tech/xiaozhi-esp32-server/blob/main/docs/FAQ.md
 
 Tips：如果阅读到这里，那么底下的按钮即可点击
 祝你使用愉快！
