@@ -357,7 +357,7 @@ class PopupWindow:
         self.main_frame.pack(fill=tk.BOTH, expand=True)
         
         # 倒计时相关变量初始化
-        self.countdown_seconds = 3
+        self.countdown_seconds = 15
         self.countdown_active = True
         
         # 初始化其他组件
