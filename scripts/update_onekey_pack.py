@@ -273,6 +273,7 @@ def main():
                     run_git_command(git_path, ["fetch", "origin"])
                     run_git_command(git_path, ["fetch", "--all"])
                     run_git_command(git_path, ["reset", "--hard", "origin/main"])
+                    if os.path.exists(f'{script_dir}/scripts/assets/success.wav'): play_audio_async(f'{script_dir}/scripts/assets/success.wav')
                     print("\n🎉 强制更新成功！")
                 else:
                     print("\n⛔ 输入无效，已取消强制更新操作")
