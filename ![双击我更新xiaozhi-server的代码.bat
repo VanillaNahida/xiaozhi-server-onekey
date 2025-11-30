@@ -20,8 +20,5 @@ if exist "%BATCH_DIR%src\main\music-xiaozhi-server\" (
     echo 未检测到音乐服务端目录，跳过依赖安装
 )
 
-echo 全部依赖更新完毕！
-"%PYTHON_PATH%" ".\runtime\success.py"
-echo 请按回车键退出...
-
+echo 全部依赖更新完毕！请按回车键退出...
 pause

@@ -126,12 +126,6 @@ def play_audio_async(file_path):
     thread.start()
     return thread
 
-if __name__ == "__main__":
-    # 获取脚本所在目录的上级目录
-    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    
-    if os.path.exists(rf'{script_dir}\runtime\sound.wav'): play_audio_async(rf'{script_dir}\runtime\sound.wav')
-
 # 常量
 DEFAULT_REPO_URL = "https://github.com/VanillaNahida/xiaozhi-server-onekey.git"
 
@@ -185,8 +179,6 @@ def run_git_command(git_path, args):
     
 def pull_with_proxy(git_path):
     """使用代理更新代码（传参Git所在位置）"""
-    # # 获取当前脚本所在目录
-    # script_dir = os.path.dirname(os.path.abspath(__file__))
     # 获取脚本所在目录的上级目录
     script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -201,12 +193,12 @@ def pull_with_proxy(git_path):
         code, output = run_git_command(git_path, ["pull"])
         if code == 0:
             # 成功提示音
-            if os.path.exists(f'{script_dir}/runtime/success.wav'): play_audio_async(f'{script_dir}/runtime/success.wav')
-
+            if os.path.exists(f'{script_dir}/scripts/assets/success.wav'): play_audio_async(f'{script_dir}/scripts/assets/success.wav')
             print("\n✅ 一键包更新成功！" if "Already up" not in output else "\n🎉 恭喜，你本地的代码已经是最新版本！")
             break
         else:
             print("\n❌ 更新失败，正在切换代理地址重试！")
+            if os.path.exists(f'{script_dir}/scripts/assets/failed.wav'): play_audio_async(f'{script_dir}/scripts/assets/failed.wav')
 
 def get_pull_mode():
     """选择更新模式"""
@@ -268,12 +260,12 @@ def main():
                 code, output = run_git_command(git_path, ["pull"])
                 if code == 0:
                     # 成功提示音
-                    if os.path.exists(f'{script_dir}/runtime/success.wav'):
-                        play_audio_async(f'{script_dir}/runtime/success.wav')
+                    if os.path.exists(f'{script_dir}/scripts/assets/success.wav'): play_audio_async(f'{script_dir}/scripts/assets/success.wav')
                     print("\n✅ 一键包更新成功！" if "Already up" not in output else "\n🎉 恭喜，你的一键包已经是最新版本！")
 
                 else:
                     print("\n❌ 更新失败，请检查日志")
+                    if os.path.exists(f'{script_dir}/scripts/assets/failed.wav'): play_audio_async(f'{script_dir}/scripts/assets/failed.wav')
             else:
                 print("\n警告⚠️： 强制更新将覆盖所有本地修改！")
                 if input("你确认要强制更新吗？请输入“确认强制更新”确认操作：") == "确认强制更新":
@@ -294,7 +286,8 @@ def main():
 
     print("\n操作完成！")
     time.sleep(2)
-    # os.system("cls")
 
 if __name__ == "__main__":
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    if os.path.exists(f'{script_dir}/assets/sound.wav'): play_audio_async(f'{script_dir}/assets/sound.wav')
     main()
