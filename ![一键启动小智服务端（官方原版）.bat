@@ -9,6 +9,7 @@ set "PATH=%BATCH_DIR%runtime\mysql\bin;%PATH%"
 set "PATH=%BATCH_DIR%runtime\Redis;%PATH%"
 set "PATH=%BATCH_DIR%runtime\maven\bin;%PATH%"
 set "PATH=%BATCH_DIR%runtime\jdk\bin;%PATH%"
+set "PATH=%BATCH_DIR%runtime\conda_env\;%PATH%"
 
 "%PYTHON_PATH%" "%BATCH_DIR%\scripts\check_update.py" --use_music_server false
 timeout /t 5

@@ -21,6 +21,7 @@ set "PATH=%BATCH_DIR%runtime\mysql\bin;%PATH%"
 set "PATH=%BATCH_DIR%runtime\Redis;%PATH%"
 set "PATH=%BATCH_DIR%runtime\nodejs;%PATH%"
 set "PATH=%BATCH_DIR%runtime\jdk-21\bin;%PATH%"
+set "PATH=%BATCH_DIR%runtime\conda_env\;%PATH%"
 
 "%PYTHON_PATH%" "%BATCH_DIR%\scripts\sync_config.py" 
 timeout /t 5
