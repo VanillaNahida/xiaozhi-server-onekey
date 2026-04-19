@@ -39,7 +39,7 @@ def uninstall_opuslib():
 # 定义下载opus.dll函数
 def download_opus_dll():
     """从指定链接下载opus.dll"""
-    url = "https://drive.xcnahida.cn/f/d/jRSj/opus.dll"
+    url = "https://cdn.xcnahida.cn/files/opus.dll"
     # 动态计算目标目录
     target_dir = Path(os.path.join(runtime_dir, 'conda_env'))
     
@@ -61,6 +61,9 @@ def download_opus_dll():
         return True
     except Exception as e:
         print(f"下载失败！错误信息: {e}")
+        print("请检查网络连接或访问权限。")
+        print("如果问题持续存在，请尝试手动下载 opus.dll 并将其放置在以下目录中:")
+        print(f"{target_dir}")
     return False
 
 # 定义安装依赖函数
