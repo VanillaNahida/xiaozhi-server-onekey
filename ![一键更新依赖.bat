@@ -21,5 +21,10 @@ if exist "%BATCH_DIR%src\main\music-xiaozhi-server\" (
     echo 未检测到音乐服务端目录，跳过依赖安装
 )
 
+echo 开始更新一键包启动器依赖...
+pip install -r "../../../scripts/requirements.txt" -i https://mirrors.aliyun.com/pypi/simple/
+cls
+echo 一键包启动器依赖更新成功！
+
 echo 全部依赖更新完毕！
 pause

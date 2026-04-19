@@ -4,6 +4,8 @@ import argparse
 import subprocess
 from typing import Tuple, List
 import pop_window as pw
+from PySide6.QtWidgets import QApplication, QMessageBox
+import re
 
 # 获取脚本所在目录的上级目录
 script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,6 +28,21 @@ parser.add_argument('--use_music_server',
 args = parser.parse_args()
 # 使用参数
 use_music_arg = args.use_music_server.lower() == 'true'
+
+def check_path_for_chinese():
+    """
+    检查路径是否有中文
+    """
+    # 获取当前工作目录
+    current_path = os.getcwd()
+    # 检查路径是否包含中文字符（Unicode范围）
+    has_chinese = bool(re.search(r'[\u3000-\u303f\u4e00-\u9fff\uff00-\uffef]', current_path))
+    # 输出结果
+    if has_chinese:
+        print(f"警告，当前路径包含中文等特殊字符: {current_path}\n已自动退出，请将一键包移动到非中文目录再启动！")
+        return False
+    else:
+        return True
 
 def fetch_remote() -> bool:
     try:
@@ -194,6 +211,13 @@ def start_onekey(use_music_server: bool):
     subprocess.Popen(wrapped, cwd=main_script_dir, shell=True)
         
 if __name__ == '__main__':
+    # 创建QApplication实例
+    app = QApplication(sys.argv)
+    # 检查路径合法性
+    if not check_path_for_chinese():
+        QMessageBox.warning(None, "警告！", f"警告，当前路径包含中文等特殊字符: “{os.getcwd()}”\n已自动退出，请将一键包移动到非中文目录再启动！")
+        sys.exit()
+
     if not os.path.exists("./runtime/.is_first_run"):
         print("检测到首次运行一键包，正在打开说明。")
         if not pw.first_run():
