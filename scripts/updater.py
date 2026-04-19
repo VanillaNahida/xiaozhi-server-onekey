@@ -241,6 +241,7 @@ def backup_config(script_dir):
         return False
 
 def main():
+    os.system("cls")
     print_logo()
     # 初始化路径
     # 获取脚本所在目录的上级目录

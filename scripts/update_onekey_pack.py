@@ -212,6 +212,7 @@ def get_pull_mode():
         print("输入无效，请重新输入！")
 
 def main():
+    os.system("cls")
     print_logo()
     # # 初始化路径
     # script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -286,6 +287,19 @@ def main():
         run_git_command(git_path, ["remote", "-v"])
 
     print("\n操作完成！")
+    
+    # 执行一键更新依赖.bat
+    print("\n开始更新依赖...")
+    batch_file = os.path.join(base_dir, "![一键更新依赖.bat")
+    if os.path.exists(batch_file):
+        print(f"执行依赖更新脚本: {batch_file}")
+        try:
+            subprocess.run(batch_file, shell=True)
+        except Exception as e:
+            print(f"执行依赖更新脚本失败: {str(e)}")
+    else:
+        print(f"未找到依赖更新脚本: {batch_file}")
+    
     time.sleep(2)
 
 if __name__ == "__main__":
