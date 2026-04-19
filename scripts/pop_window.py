@@ -304,7 +304,9 @@ def show_github_release():
     global popup_result
     popup_result = False
     if should_show_update():
-        app = QApplication([])
+        app = QApplication.instance()
+        if app is None:
+            app = QApplication([])
         window = GitHubReleaseChecker()
         window.show()
         app.exec()
@@ -312,7 +314,9 @@ def show_github_release():
 
 
 def first_run():
-    app = QApplication([])
+    app = QApplication.instance()
+    if app is None:
+        app = QApplication([])
     window = PopupWindow()
     window.show()
     app.exec()
