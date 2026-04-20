@@ -26,26 +26,42 @@ class GitHubReleaseChecker(QWidget):
         self.latest_release = {}
 
         self.setWindowTitle(f"小智AI服务端一键包 - 正在获取更新信息...")
-        self.setGeometry(0, 0, 900, 700)
         self.setAttribute(Qt.WA_DeleteOnClose)
         self.setWindowFlag(Qt.WindowStaysOnTopHint)
 
+        self.init_auto_scale()
         self.create_widgets()
         self.center_window()
         self.fetch_latest_release()
 
+    def init_auto_scale(self):
+        screen_geometry = QApplication.primaryScreen().geometry()
+        screen_width = screen_geometry.width()
+        screen_height = screen_geometry.height()
+
+        reference_width = 1920
+        reference_height = 1080
+
+        self.scale_factor = min(screen_width / reference_width, screen_height / reference_height)
+        self.scale_factor = max(0.5, min(self.scale_factor, 1.5))
+
+        base_width = int(900 * self.scale_factor)
+        base_height = int(700 * self.scale_factor)
+        self.setGeometry(0, 0, base_width, base_height)
+
     def create_widgets(self):
         main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(20, 20, 20, 20)
+        main_layout.setContentsMargins(int(20 * self.scale_factor), int(20 * self.scale_factor),
+                                      int(20 * self.scale_factor), int(20 * self.scale_factor))
 
         self.text_widget = QTextEdit()
         self.text_widget.setReadOnly(True)
-        self.text_widget.setFont(QFont('Microsoft YaHei', 13))
+        self.text_widget.setFont(QFont('Microsoft YaHei', int(13 * self.scale_factor)))
         main_layout.addWidget(self.text_widget, 1)
 
         bottom_frame = QFrame()
         bottom_layout = QHBoxLayout(bottom_frame)
-        bottom_layout.setContentsMargins(0, 10, 0, 0)
+        bottom_layout.setContentsMargins(0, int(10 * self.scale_factor), 0, 0)
 
         bottom_layout.addWidget(QLabel())
 
@@ -57,16 +73,16 @@ class GitHubReleaseChecker(QWidget):
         bottom_layout.addStretch()
 
         update_btn = QPushButton("立即更新")
-        update_btn.setFont(QFont('黑体', 10))
-        update_btn.setMinimumWidth(120)
-        update_btn.setMinimumHeight(40)
+        update_btn.setFont(QFont('黑体', int(10 * self.scale_factor)))
+        update_btn.setMinimumWidth(int(120 * self.scale_factor))
+        update_btn.setMinimumHeight(int(40 * self.scale_factor))
         update_btn.clicked.connect(self.on_update_now)
         bottom_layout.addWidget(update_btn)
 
         skip_btn = QPushButton("暂不更新")
-        skip_btn.setFont(QFont('黑体', 10))
-        skip_btn.setMinimumWidth(120)
-        skip_btn.setMinimumHeight(40)
+        skip_btn.setFont(QFont('黑体', int(10 * self.scale_factor)))
+        skip_btn.setMinimumWidth(int(120 * self.scale_factor))
+        skip_btn.setMinimumHeight(int(40 * self.scale_factor))
         skip_btn.clicked.connect(self.on_skip_update)
         bottom_layout.addWidget(skip_btn)
 
@@ -178,21 +194,37 @@ class PopupWindow(QWidget):
         popup_result = False
 
         self.setWindowTitle("小智AI一键包 By：香草味的纳西妲喵 - 必看说明")
-        self.setFixedSize(1280, 870)
         self.setAttribute(Qt.WA_DeleteOnClose)
 
         self.countdown_seconds = 15
         self.countdown_active = True
 
+        self.init_auto_scale()
         self.create_widgets()
         self.center_window()
 
         if root:
             root.destroy()
 
+    def init_auto_scale(self):
+        screen_geometry = QApplication.primaryScreen().geometry()
+        screen_width = screen_geometry.width()
+        screen_height = screen_geometry.height()
+
+        reference_width = 1920
+        reference_height = 1080
+
+        self.scale_factor = min(screen_width / reference_width, screen_height / reference_height)
+        self.scale_factor = max(0.5, min(self.scale_factor, 1.5))
+
+        base_width = int(1280 * self.scale_factor)
+        base_height = int(870 * self.scale_factor)
+        self.setFixedSize(base_width, base_height)
+
     def create_widgets(self):
         main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(20, 20, 20, 20)
+        main_layout.setContentsMargins(int(20 * self.scale_factor), int(20 * self.scale_factor),
+                                      int(20 * self.scale_factor), int(20 * self.scale_factor))
 
         text_frame = QFrame()
         text_layout = QVBoxLayout(text_frame)
@@ -200,29 +232,29 @@ class PopupWindow(QWidget):
 
         self.text_widget = QTextEdit()
         self.text_widget.setReadOnly(True)
-        self.text_widget.setFont(QFont('Microsoft YaHei', 18))
+        self.text_widget.setFont(QFont('Microsoft YaHei', int(18 * self.scale_factor)))
         text_layout.addWidget(self.text_widget)
 
         main_layout.addWidget(text_frame, 1)
 
         button_frame = QFrame()
         button_layout = QHBoxLayout(button_frame)
-        button_layout.setContentsMargins(0, 20, 0, 0)
+        button_layout.setContentsMargins(0, int(20 * self.scale_factor), 0, 0)
 
         button_layout.addStretch()
 
         self.confirm_button = QPushButton(f"请看提示({self.countdown_seconds}s)")
-        self.confirm_button.setFont(QFont('黑体', 10))
-        self.confirm_button.setMinimumWidth(180)
-        self.confirm_button.setMinimumHeight(40)
+        self.confirm_button.setFont(QFont('黑体', int(10 * self.scale_factor)))
+        self.confirm_button.setMinimumWidth(int(180 * self.scale_factor))
+        self.confirm_button.setMinimumHeight(int(40 * self.scale_factor))
         self.confirm_button.setEnabled(False)
         self.confirm_button.clicked.connect(self.on_confirm)
         button_layout.addWidget(self.confirm_button)
 
         cancel_button = QPushButton("取消")
-        cancel_button.setFont(QFont('黑体', 10))
-        cancel_button.setMinimumWidth(150)
-        cancel_button.setMinimumHeight(40)
+        cancel_button.setFont(QFont('黑体', int(10 * self.scale_factor)))
+        cancel_button.setMinimumWidth(int(150 * self.scale_factor))
+        cancel_button.setMinimumHeight(int(40 * self.scale_factor))
         cancel_button.clicked.connect(self.on_cancel)
         button_layout.addWidget(cancel_button)
 
@@ -343,3 +375,4 @@ def should_show_update():
 
 if __name__ == "__main__":
     show_github_release()
+    # first_run()
