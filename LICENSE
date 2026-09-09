@@ -1,6 +1,6 @@
 Limited Redistribution License for xiaozhi-server-onekey
 
-Copyright © 2025 VanillaNahida
+Copyright (C) 2026 VanillaNahida
 
 1. Usage and Reproduction:
    - Unauthorized use, reproduction, modification, or distribution of this code is prohibited without explicit permission from the main author of the xiaozhi-server-onekey repository.
@@ -10,10 +10,31 @@ Copyright © 2025 VanillaNahida
    - Minor modifications and extensions are allowed for redistribution purposes, but the modified code must not be publicly released.
 
 3. Non-Commercial Use:
-   - This code is not to be used for any commercial purposes.
+   - This code is not to be used for any commercial purposes. If commercial use is indeed necessary, please contact the developer and, upon obtaining consent, indicate the project address in the open source license statement of the commercial software and attach the LICENSE.
 
 4. Additional Permissions:
    - Any rights not explicitly addressed in this license must be requested from and granted by the main author of the xiaozhi-server-onekey repository.
 
 5. Disclaimer:
    - This code is provided "as is," without any express or implied warranties, including but not limited to the implied warranties of merchantability and fitness for a particular purpose. In no event shall the author be liable for any damages or other liability arising from, out of, or in connection with the use or distribution of this code.
+
+
+有限再分发许可证——xiaozhi-server-onekey
+
+版权所有 (C) 2026 VanillaNahida
+
+1. 使用与复制：
+   - 未经 xiaozhi-server-onekey 仓库主要作者的明确许可，禁止对本代码进行任何未经授权的使用、复制、修改或分发。
+
+2. 再分发：
+   - 允许再分发本代码，前提是必须附带本许可证全文，并清晰注明来源和版权信息。
+   - 允许为再分发目的进行少量修改和扩展，但不得公开发布修改后的代码。
+
+3. 非商业用途：
+   - 本代码不得用于任何商业目的。如确实需要商业用途，请联系开发者，在征得同意后在商业软件的开源许可声明标注本项目地址并附上LICENSE。
+
+4. 附加许可：
+   - 本许可证未明确授予的任何权利，均须向 xiaozhi-server-onekey 仓库主要作者申请并获得其许可。
+
+5. 免责声明：
+   - 本代码按“现状”提供，不附带任何明示或暗示的担保，包括但不限于对适销性和特定用途适用性的暗示担保。在任何情况下，作者均不对因使用或分发本代码而产生的任何损害或其他责任承担责任。
