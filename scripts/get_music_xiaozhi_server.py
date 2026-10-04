@@ -9,7 +9,7 @@ from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from requests.exceptions import RequestException
 
-BASE_URL = "https://github.com/XuSenfeng/xiaozhi-esp32-server-music"
+BASE_URL = "https://github.com/VanillaNahida/xiaozhi-esp32-server-music"
 
 DEFAULT_ZIP_URL = f"{BASE_URL}/archive/refs/heads/master.zip"
 
